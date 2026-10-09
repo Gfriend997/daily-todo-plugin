@@ -1,0 +1,10 @@
+.local/
+.superpowers/
+node_modules/
+*.tmp
+coverage/
+config.local.json
+**/writer*.lock
+**/.daily-todo-state.json
+**/01 Daily/
+
