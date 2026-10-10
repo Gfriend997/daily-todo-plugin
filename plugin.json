@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "daily-todo",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Keep private daily task lists, preserve task age, and start sessions with five focus reminders.",
   "author": { "name": "Gary Wong", "url": "https://github.com/Gfriend997" },
   "repository": "https://github.com/Gfriend997/daily-todo-plugin",

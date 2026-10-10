@@ -68,7 +68,7 @@
 - [ ] Implement the installer and scheduler integration without clearing locks or fabricating hook trust.
 - [ ] Run the full suite and independent review; fix important findings with regression tests.
 - [ ] Install against the actual host only after fixture validation; verify plugin discovery, today's private file, a real startup reminder and the scheduled task's action/trigger.
-- [ ] Report exact hook trust state and any remote/Kai integration limits; do not claim a future chat ran without evidence.
+- [ ] Report exact hook trust state and any remote-agent integration limits; do not claim a future chat ran without evidence.
 - [ ] Commit and publish the generic package to the user's public GitHub destination; verify remote files and CI where available.
 
 ## Execution ledger

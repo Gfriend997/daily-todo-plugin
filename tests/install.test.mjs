@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, mkdirSync, existsSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, existsSync, writeFileSync, readFileSync, rmSync, realpathSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { resolve, join } from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -12,7 +12,7 @@ function powershell(file, args) {
   return spawnSync('powershell.exe', ['-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-File', file, ...args], { encoding: 'utf8' });
 }
 test('Windows install preview is repeatable, private, and quotes paths with spaces', { skip: !windows }, () => {
-  const dir = mkdtempSync(join(tmpdir(), 'todo install '));
+  const dir = realpathSync(mkdtempSync(join(tmpdir(), 'todo install ')));
   try {
     const vault = join(dir, 'private vault'); mkdirSync(vault);
     const config = join(dir, 'private config', 'config.json');
@@ -42,7 +42,7 @@ test('Windows install preview is repeatable, private, and quotes paths with spac
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
 test('installer preserves unrelated scheduled tasks and refuses a conflicting owner', { skip: !windows }, () => {
-  const dir = mkdtempSync(join(tmpdir(), 'todo install '));
+  const dir = realpathSync(mkdtempSync(join(tmpdir(), 'todo install ')));
   const quote = value => `'${value.replaceAll("'", "''")}'`;
   try {
     const config = join(dir, 'private', 'config.json');
@@ -78,7 +78,7 @@ function Register-ScheduledTask {
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
 test('installer rejects public-repository config and conflicting existing vault', { skip: !windows }, () => {
-  const dir = mkdtempSync(join(tmpdir(), 'todo install '));
+  const dir = realpathSync(mkdtempSync(join(tmpdir(), 'todo install ')));
   try {
     const publicPath = resolve('examples/private-config-test.json');
     const rejected = powershell(installer, ['-Vault', dir, '-ConfigPath', publicPath, '-Preview']);

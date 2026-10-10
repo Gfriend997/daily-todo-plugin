@@ -355,3 +355,29 @@ test('abandoned managed temporary files block cleanup rather than leave task-bod
   await fs.access(initial.path);
   await fs.access(temporary);
 });
+
+test('Windows short-path aliases reference the same vault while junctions still refuse', { skip: process.platform !== 'win32' }, async t => {
+  const config = await fixture(t);
+  const short = spawnSync('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command', '$fso = New-Object -ComObject Scripting.FileSystemObject; [Console]::Write($fso.GetFolder($env:DAILY_TODO_TEST_PATH).ShortPath)'], {
+    encoding: 'utf8', env: { ...process.env, DAILY_TODO_TEST_PATH: config.vault }, timeout: 10000,
+  });
+  assert.equal(short.status, 0, short.stderr);
+  const alias = short.stdout.trim();
+  if (alias.toLowerCase() === config.vault.toLowerCase()) { t.skip('NTFS short names are unavailable for this fixture and its ancestors.'); return; }
+  assert.equal(await fs.realpath(alias), await fs.realpath(config.vault));
+  const result = ok(await run('capture', at({ ...config, vault: alias }, undefined, { request: capture() })));
+  assert.equal(await fs.realpath(result.path), path.join(await fs.realpath(config.vault), '01 Daily', 'To-do', '2026-10-09.md'));
+  assert.equal(ok(await run('list', at(config))).total, 1);
+  const outside = await fixture(t);
+  await fs.symlink(outside.vault, path.join(alias, 'linked'), 'junction');
+  assert.ok((await run('startup', at({ ...config, vault: alias, todoDirectory: 'linked' }))).errors.length);
+  assert.deepEqual(await fs.readdir(outside.vault), []);
+});
+
+test('Windows mixed-case paths reference the same authoritative snapshot', { skip: process.platform !== 'win32' }, async t => {
+  const config = await fixture(t);
+  ok(await run('capture', at({ ...config, vault: config.vault.toUpperCase() }, undefined, { request: capture() })));
+  const result = ok(await run('list', at(config)));
+  assert.equal(result.total, 1);
+  assert.equal(result.tasks[0].id, id);
+});

@@ -59,6 +59,9 @@ function configuration(input) {
   return { vault, todo, working, timezone, retentionDays };
 }
 async function stat(file) { try { return await fs.lstat(file); } catch (error) { if (error.code === 'ENOENT') return null; throw error; } }
+function samePath(left, right) {
+  return process.platform === 'win32' ? path.resolve(left).toLowerCase() === path.resolve(right).toLowerCase() : path.resolve(left) === path.resolve(right);
+}
 async function safePath(target, { directory = false, create = false } = {}) {
   const absolute = path.resolve(target);
   const root = path.parse(absolute).root;
@@ -75,7 +78,12 @@ async function safePath(target, { directory = false, create = false } = {}) {
     if (!info) return false;
     if (info.isSymbolicLink() || (isDirectory ? !info.isDirectory() : !info.isFile() || info.nlink !== 1)) refuse('Unsafe filesystem path; links and special files are refused.');
     const resolved = await fs.realpath(current);
-    if (path.resolve(resolved).toLowerCase() !== path.resolve(current).toLowerCase()) refuse('Resolved filesystem path escaped its configured location.');
+    if (!samePath(resolved, current)) {
+      const canonical = await fs.lstat(resolved);
+      // Windows 8.3 names may expand only within the verified parent, to the same non-link entry.
+      if (process.platform !== 'win32' || !samePath(path.dirname(resolved), path.dirname(current)) || canonical.isSymbolicLink() || canonical.dev !== info.dev || canonical.ino !== info.ino) refuse('Resolved filesystem path escaped its configured location.');
+    }
+    current = resolved;
   }
   return true;
 }

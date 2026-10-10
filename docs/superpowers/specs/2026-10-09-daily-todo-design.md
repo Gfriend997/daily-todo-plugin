@@ -13,7 +13,7 @@ The public package contains only source code, documentation and fictional fixtur
 - `skills/daily-todo/SKILL.md` governs capture, completion, suggestions and reminders.
 - A plugin manifest, local/repository marketplace entry and bundled SessionStart hook make the package installable.
 - A Windows installer creates the private configuration and a daily scheduled task; it preserves unrelated configuration and never manufactures hook trust.
-- Kai uses the same configured helper on the host computer. No new remote-access service is introduced.
+- An authorized remote agent uses the same configured helper on the host computer. No new remote-access service is introduced.
 
 ## Private storage and task schema
 
@@ -33,7 +33,7 @@ Approved priorities order reminders. Unapproved priority suggestions remain sepa
 
 ## Completion and rollover
 
-Verified completion records `completed_at` and bounded evidence or a human confirmation reference. If the agent is unsure, it asks the human and leaves the task unfinished. Completed tasks remain only in the completion day's current list and do not roll forward. Earlier retained snapshots remain historical and are not silently rewritten. Rollover preserves IDs, source, original capture times, deadlines and approved priority provenance. Missing days require one current snapshot, not synthetic intermediate days. Concurrent scheduler/startup/Kai invocations cannot duplicate capture IDs or daily files.
+Verified completion records `completed_at` and bounded evidence or a human confirmation reference. If the agent is unsure, it asks the human and leaves the task unfinished. Completed tasks remain only in the completion day's current list and do not roll forward. Earlier retained snapshots remain historical and are not silently rewritten. Rollover preserves IDs, source, original capture times, deadlines and approved priority provenance. Missing days require one current snapshot, not synthetic intermediate days. Concurrent scheduler, startup and remote-agent invocations cannot duplicate capture IDs or daily files.
 
 ## Fourteen-day retention
 

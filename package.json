@@ -1,6 +1,6 @@
 {
   "name": "daily-todo-plugin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "Private daily Markdown task lists with safe rollover and focus reminders",
   "type": "module",

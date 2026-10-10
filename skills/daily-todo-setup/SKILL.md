@@ -18,6 +18,6 @@ Use normal execution approvals. The installer writes private configuration and o
 
 Codex discovers the plugin's SessionStart hook, but the user must review and trust its exact definition through `/hooks`. Never fabricate hook trust, write an approval record on the user's behalf, or use a blanket trust bypass. Verify configuration with a real `startup` invocation and distinguish that from evidence that a fresh chat automatically ran the hook.
 
-On other platforms, write the same private JSON config with the user's confirmed vault and timezone, then test the helper. Set up the equivalent scheduler only when authorized; the bundled scheduler installer is Windows-only. Kai or another authorized remote agent can use the configured host helper without adding a remote service.
+On other platforms, write the same private JSON config with the user's confirmed vault and timezone, then test the helper. Set up the equivalent scheduler only when authorized; the bundled scheduler installer is Windows-only. An authorized remote agent can use the configured host helper without adding a remote service.
 
 Report the actual plugin path, private config path, scheduled trigger, latest daily file and hook trust status. An unavailable vault, held cooperative lock or invalid snapshot is a blocker, not permission to erase or recreate state. Never put the private config or actual task records in the public repository.
