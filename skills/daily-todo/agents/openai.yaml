@@ -1,0 +1,4 @@
+interface:
+  display_name: "Daily To-do"
+  short_description: "Track daily tasks and show five focus reminders"
+  default_prompt: "Use $daily-todo to show my five focus tasks and offer to show all."

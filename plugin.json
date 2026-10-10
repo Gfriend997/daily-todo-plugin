@@ -1,0 +1,26 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "daily-todo",
+  "version": "0.1.0",
+  "description": "Keep private daily task lists, preserve task age, and start sessions with five focus reminders.",
+  "author": { "name": "Gary Wong", "url": "https://github.com/Gfriend997" },
+  "repository": "https://github.com/Gfriend997/daily-todo-plugin",
+  "license": "MIT",
+  "keywords": ["tasks", "obsidian", "daily-list", "rollover", "codex"],
+  "extensions": {
+    "com.openai": {
+      "hooks": "./hooks/hooks.json",
+      "onboardingSkill": "./skills/daily-todo-setup/SKILL.md",
+      "interface": {
+        "displayName": "Daily To-do",
+        "shortDescription": "Daily tasks, rollover and five focus reminders",
+        "longDescription": "Track private tasks by organization and project, preserve original capture time, record verified completion, and remove expired daily files after safe rollover.",
+        "developerName": "Gary Wong",
+        "category": "Productivity",
+        "capabilities": ["Instructions", "Local scripts", "Lifecycle hooks"],
+        "websiteURL": "https://github.com/Gfriend997/daily-todo-plugin",
+        "defaultPrompt": ["Show my five focus tasks.", "Add this commitment to my daily list.", "Show all unfinished tasks."]
+      }
+    }
+  }
+}

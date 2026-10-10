@@ -1,0 +1,18 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"require(require('node:path').join(process.env.PLUGIN_ROOT || process.env.CLAUDE_PLUGIN_ROOT, 'hooks/session-start.cjs'))\"",
+            "timeout": 15,
+            "statusMessage": "Loading five daily focus tasks...",
+            "additionalContextLimit": 8000
+          }
+        ]
+      }
+    ]
+  }
+}

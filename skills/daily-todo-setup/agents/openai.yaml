@@ -1,0 +1,4 @@
+interface:
+  display_name: "Daily To-do Setup"
+  short_description: "Configure private daily tasks and startup reminders"
+  default_prompt: "Use $daily-todo-setup to configure my private vault and daily reminder."

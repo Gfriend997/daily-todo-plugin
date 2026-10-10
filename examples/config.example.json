@@ -1,0 +1,7 @@
+{
+  "vault": "C:/Example/PrivateVault",
+  "timezone": "America/Los_Angeles",
+  "todoDirectory": "01 Daily/To-do",
+  "workingDirectory": "07 System/Working",
+  "retentionDays": 14
+}
